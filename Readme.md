@@ -24,6 +24,9 @@ The usage is very simple:
 	
 	// current context will be set to root context again
 	if (perms.currentContext().permissions[0] == "READ") { alert("OK!") }
+
+	// create a new context under context "A" and switch to new context
+	perms.update(["PERM_1", "PERM_2"], "B", "A")
 	
 License
 =======

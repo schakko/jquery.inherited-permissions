@@ -6,7 +6,7 @@ test("default context is root", function() {
 })
 
 test("get context by name", function() {
-	var plugin = $.inheritedPermissions()
+	var plugin = new $.inheritedPermissions()
 	ok(plugin.get("root") !== null)
 	ok(plugin.get("root").permissions.length == 0)
 })
@@ -151,4 +151,28 @@ test("assert that current context will be resetted to root if deleted context is
 	var r = plugin.currentContext()
 	
 	ok(r.permissions[0] == "ROOT_PERM")
+})
+
+test("on update, the current context must be reset and every permission in an existent context must be resetted", function() {
+	var plugin = $.inheritedPermissions()
+
+	plugin.addContext("sub_kontext", ["PERM1", "PERM2"])
+	plugin.update(["PERM3"], "sub_kontext")
+
+	var r = plugin.currentContext()
+
+	ok(r.permissions.length == 1)
+	ok(r.permissions[0] == "PERM3")
+})
+
+test("on update, a new context must be correctly added", function() {
+	var plugin = $.inheritedPermissions()
+
+	plugin.addContext("ctx_a", ["PERM1"])
+	plugin.update(["PERM2"], "ctx_b", "ctx_a")
+
+	var r = plugin.currentContext()
+	ok(r.permissions[0] == "PERM2")
+	ok(plugin.available("PERM1"))
+	ok(plugin.available("PERM2"))
 })
