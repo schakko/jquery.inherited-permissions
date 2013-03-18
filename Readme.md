@@ -5,7 +5,7 @@ Roles are not directly supported, but you can use some naming conventions for bu
 
 The usage is very simple:
 	
-	var perms = $.inheritedPermissions()
+	var perms = new $.inheritedPermissions()
 
 	// add permission READ to root hierarchy; root is the top node and can not be deleted
 	perms.grant("READ")
