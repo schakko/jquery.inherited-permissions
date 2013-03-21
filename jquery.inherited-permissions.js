@@ -24,15 +24,24 @@ jQuery.inheritedPermissions = function () {
 
 	/**
 	 * Checks if the permission in the current context or one of the top contexts are available
-	 * @param string permission name
+	 * @param string|array permission name
 	 * @param string optional; context to check, if not defined: current context
 	 * @returns true if permission is in context available.
 	 */
-	self.available = function (permission, context) {
+	self.available = function (permissions, context) {
 		var allPerms = self.all(context)
-		var r = jQuery.inArray(permission, allPerms)
 		
-		return r !== -1;
+		if (!jQuery.isArray(permissions)) {
+			permissions = [permissions]
+		}
+		
+		for (var i = 0, m = permissions.length; i < m; i++) {
+			if (-1 === jQuery.inArray(permissions[i], allPerms)) {
+				return false
+			}
+		}
+		
+		return true;
 	};
 
 	/**
